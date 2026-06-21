@@ -1,17 +1,17 @@
 import { useStore } from '../store/useStore';
 import { motion } from 'framer-motion';
-import { Palette, Layout, Type } from 'lucide-react';
+import { Palette, Layout, Type, Upload } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 const PackagingStudio = () => {
   const { customization, setCustomization } = useStore();
 
   const themes = [
-    { id: 'Student Edition', color: 'bg-blue-500' },
-    { id: 'Developer Edition', color: 'bg-purple-600' },
-    { id: 'Corporate Edition', color: 'bg-gray-700' },
-    { id: 'Fitness Edition', color: 'bg-orange-500' },
-    { id: 'Eco Edition', color: 'bg-green-500' },
+    { id: 'Student Edition', color: '#3b82f6' },
+    { id: 'Developer Edition', color: '#1c1c1e' },
+    { id: 'Corporate Edition', color: '#64748b' },
+    { id: 'Fitness Edition', color: '#f97316' },
+    { id: 'Eco Edition', color: '#34c759' },
   ];
 
   return (
@@ -30,6 +30,7 @@ const PackagingStudio = () => {
               customization.theme === 'Fitness Edition' && 'bg-orange-500',
               customization.theme === 'Eco Edition' && 'bg-apple-green text-black',
             )}
+            style={{ backgroundColor: customization.theme === 'Custom' ? customization.bagColor : undefined }}
           >
             <div className="z-10">
               <p className="text-xs font-black tracking-widest uppercase mb-1 opacity-60">Apple Bites</p>
@@ -59,21 +60,23 @@ const PackagingStudio = () => {
         {/* Controls */}
         <div className="order-1 lg:order-2">
           <h2 className="text-5xl font-black mb-6">CUSTOM PACKAGING <span className="text-apple-green">STUDIO</span></h2>
-          <p className="text-xl text-gray-400 mb-12">Your snack, your brand. Our AI generates the visual identity based on your performance goals and target persona.</p>
 
           <div className="space-y-8">
             <div>
               <div className="flex items-center gap-2 mb-4 text-gray-300">
                 <Palette size={18} />
-                <span className="font-bold uppercase tracking-widest text-sm">Design Theme</span>
+                <span className="font-bold uppercase tracking-widest text-sm">Design Theme & Color</span>
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 mb-6">
                 {themes.map((theme) => (
                   <button
                     key={theme.id}
-                    onClick={() => setCustomization('theme', theme.id)}
+                    onClick={() => {
+                        setCustomization('theme', theme.id);
+                        setCustomization('bagColor', theme.color);
+                    }}
                     className={cn(
-                      "px-6 py-3 rounded-full border transition-all",
+                      "px-6 py-2 rounded-full border transition-all text-sm",
                       customization.theme === theme.id
                         ? "bg-white text-black border-white"
                         : "bg-transparent border-white/20 hover:border-white/50"
@@ -83,18 +86,43 @@ const PackagingStudio = () => {
                   </button>
                 ))}
               </div>
+
+              <div className="flex items-center gap-4">
+                 <input
+                   type="color"
+                   value={customization.bagColor}
+                   onChange={(e) => {
+                       setCustomization('bagColor', e.target.value);
+                       setCustomization('theme', 'Custom');
+                   }}
+                   className="w-12 h-12 rounded-lg bg-transparent border-none cursor-pointer"
+                 />
+                 <span className="text-sm text-gray-400 font-mono">{customization.bagColor}</span>
+              </div>
+            </div>
+
+            <div>
+               <div className="flex items-center gap-2 mb-4 text-gray-300">
+                <Upload size={18} />
+                <span className="font-bold uppercase tracking-widest text-sm">Brand Image Upload</span>
+              </div>
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-white/10 rounded-2xl cursor-pointer hover:border-apple-green transition-colors bg-white/5">
+                 <Upload className="text-gray-500 mb-2" />
+                 <span className="text-xs text-gray-500">Upload your logo or artwork</span>
+                 <input type="file" className="hidden" />
+              </label>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="p-6 bg-white/5 rounded-2xl border border-white/5">
                 <Layout className="mb-4 text-apple-green" />
-                <h4 className="font-bold mb-1">Sustainable Materials</h4>
-                <p className="text-sm text-gray-500">100% compostable mycelium-based packaging.</p>
+                <h4 className="font-bold mb-1 text-sm">Sustainable Materials</h4>
+                <p className="text-[10px] text-gray-500 uppercase tracking-widest">Compostable Mycelium</p>
               </div>
               <div className="p-6 bg-white/5 rounded-2xl border border-white/5">
                 <Type className="mb-4 text-apple-red" />
-                <h4 className="font-bold mb-1">Smart Labels</h4>
-                <p className="text-sm text-gray-500">Dynamic NFC-enabled nutritional updates.</p>
+                <h4 className="font-bold mb-1 text-sm">Smart Labels</h4>
+                <p className="text-[10px] text-gray-500 uppercase tracking-widest">NFC-Enabled</p>
               </div>
             </div>
           </div>

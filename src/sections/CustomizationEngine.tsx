@@ -1,14 +1,21 @@
 import { useStore } from '../store/useStore';
 import { motion } from 'framer-motion';
-import { Zap, Utensils, Flame } from 'lucide-react';
+import { Zap, Utensils, Leaf, ArrowRight } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 const CustomizationEngine = () => {
-  const { customization, setCustomization } = useStore();
+  const { customization, setCustomization, setAppState } = useStore();
 
   const handleSliderChange = (key: string, value: number) => {
     setCustomization(key, value);
   };
+
+  const flavors = [
+    { name: 'Sea Salt & Lime', color: '#34c759' },
+    { name: 'Spicy Chili', color: '#ff3b30' },
+    { name: 'Wild Honey', color: '#ffcc00' },
+    { name: 'Truffle Black', color: '#1c1c1e' }
+  ];
 
   return (
     <section className="relative min-h-screen py-24 px-4 bg-gradient-to-b from-transparent to-dark-surface/50">
@@ -18,11 +25,32 @@ const CustomizationEngine = () => {
             BUILD YOUR <br />
             <span className="text-apple-green">PERFECT CRUNCH</span>
           </h2>
-          <p className="text-xl text-gray-400 mb-12 max-w-lg">
-            Adjust the parameters. Our AI handles the rest, calculating the optimal molecular structure for your specific needs.
-          </p>
 
           <div className="space-y-12 max-w-md">
+            {/* Flavor Selection */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-apple-green">
+                <Leaf size={20} />
+                <span className="font-bold uppercase tracking-wider">Natural Flavors</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {flavors.map((f) => (
+                  <button
+                    key={f.name}
+                    onClick={() => setCustomization('flavor', f.name)}
+                    className={cn(
+                      "p-3 rounded-lg border text-sm transition-all duration-300",
+                      customization.flavor === f.name
+                        ? "bg-white text-black border-white"
+                        : "bg-white/5 border-white/10 hover:border-white/20"
+                    )}
+                  >
+                    {f.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Productivity */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
@@ -61,24 +89,13 @@ const CustomizationEngine = () => {
               />
             </div>
 
-            {/* Calories */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2 text-orange-400">
-                  <Flame size={20} />
-                  <span className="font-bold uppercase tracking-wider">Calorie Target</span>
-                </div>
-                <span className="text-2xl font-mono">{customization.calories}%</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={customization.calories}
-                onChange={(e) => handleSliderChange('calories', parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-orange-500"
-              />
-            </div>
+            <button
+               onClick={() => setAppState('builder')}
+               className="group flex items-center gap-4 bg-apple-green text-black px-8 py-4 rounded-full font-bold hover:bg-white transition-all duration-300 transform hover:scale-105"
+            >
+              CUSTOM CHIPS BUILDER
+              <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+            </button>
           </div>
         </div>
 
@@ -109,6 +126,7 @@ const CustomizationEngine = () => {
                </button>
              ))}
           </div>
+          <p className="mt-8 text-gray-400 text-sm uppercase tracking-widest font-bold">Target Persona</p>
         </div>
       </div>
     </section>

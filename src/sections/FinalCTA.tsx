@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { ArrowRight, ShoppingCart } from 'lucide-react';
 
 const FinalCTA = () => {
-  const { customization } = useStore();
+  const { customization, setAppState } = useStore();
 
   const handleOrder = () => {
     confetti({
@@ -13,6 +13,7 @@ const FinalCTA = () => {
       origin: { y: 0.6 },
       colors: ['#34c759', '#ff3b30', '#ffffff']
     });
+    setAppState('order');
   };
 
   return (
@@ -37,14 +38,17 @@ const FinalCTA = () => {
 
         <div className="flex flex-col md:flex-row gap-6 justify-center">
            <button
-             onClick={handleOrder}
+             onClick={() => setAppState('builder')}
              className="px-12 py-6 bg-white text-black font-black text-xl rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-3 group"
            >
               BUILD YOUR PERFECT CRUNCH
               <ArrowRight className="group-hover:translate-x-2 transition-transform" />
            </button>
 
-           <button className="px-12 py-6 bg-transparent border-2 border-white/20 text-white font-black text-xl rounded-full hover:bg-white/5 transition-all flex items-center justify-center gap-3">
+           <button
+             onClick={handleOrder}
+             className="px-12 py-6 bg-transparent border-2 border-white/20 text-white font-black text-xl rounded-full hover:bg-white/5 transition-all flex items-center justify-center gap-3"
+           >
               <ShoppingCart />
               ORDER NOW
            </button>
