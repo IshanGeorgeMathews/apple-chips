@@ -36,8 +36,9 @@ const BagModel = ({ progress }: { progress: number }) => {
       >
         <meshStandardMaterial
           color={customization.bagColor}
-          roughness={0.2}
-          metalness={0.5}
+          roughness={customization.finish === 'Matte' ? 0.9 : (customization.finish === 'Satin' ? 0.4 : 0.05)}
+          metalness={customization.finish === 'Glossy' ? 0.5 : 0.1}
+          envMapIntensity={customization.finish === 'Glossy' ? 2 : 0.5}
         />
 
         {/* Placeholder for "Brand" text or logo */}

@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
 export const FLAVOR_PROFILES = {
-  'Sea Salt & Lime': { productivity: 40, taste: 60, calories: 30, color: '#34c759', sprinkleColor: '#ffffff' },
-  'Spicy Chili': { productivity: 80, taste: 95, calories: 45, color: '#ff3b30', sprinkleColor: '#ff9500' },
-  'Wild Honey': { productivity: 30, taste: 85, calories: 70, color: '#ffcc00', sprinkleColor: '#f5d142' },
-  'Truffle Black': { productivity: 95, taste: 70, calories: 50, color: '#1c1c1e', sprinkleColor: '#444444' }
+  'Onyx Sea Salt': { productivity: 40, taste: 60, calories: 30, color: '#1a1a1a', sprinkleColor: '#ffffff' },
+  'Crimson Chili': { productivity: 80, taste: 95, calories: 45, color: '#4a0e0e', sprinkleColor: '#ff9500' },
+  'Obsidian Truffle': { productivity: 95, taste: 70, calories: 50, color: '#050505', sprinkleColor: '#444444' },
+  'Champagne Honey': { productivity: 30, taste: 85, calories: 70, color: '#d4af37', sprinkleColor: '#ffffff' }
 };
 
 interface AppState {
@@ -23,6 +23,7 @@ interface AppState {
     target: string;
     bagColor: string;
     bagImage: string | null;
+    finish: 'Matte' | 'Satin' | 'Glossy';
   };
   setFlavor: (flavor: keyof typeof FLAVOR_PROFILES) => void;
   setCustomization: (key: string, value: any) => void;
@@ -42,17 +43,18 @@ export const useStore = create<AppState>((set) => ({
   setAppState: (appState) => set({ appState }),
 
   customization: {
-    productivity: FLAVOR_PROFILES['Sea Salt & Lime'].productivity,
-    taste: FLAVOR_PROFILES['Sea Salt & Lime'].taste,
-    calories: FLAVOR_PROFILES['Sea Salt & Lime'].calories,
-    flavor: 'Sea Salt & Lime',
+    productivity: FLAVOR_PROFILES['Onyx Sea Salt'].productivity,
+    taste: FLAVOR_PROFILES['Onyx Sea Salt'].taste,
+    calories: FLAVOR_PROFILES['Onyx Sea Salt'].calories,
+    flavor: 'Onyx Sea Salt',
     method: 'Air Fried',
     oil: 'Avocado Oil',
     thickness: 'Thin',
-    theme: 'Eco Edition',
+    theme: 'Exclusive Edition',
     target: 'Developer',
-    bagColor: '#34c759',
+    bagColor: '#1a1a1a',
     bagImage: null,
+    finish: 'Satin',
   },
 
   setFlavor: (flavor) => set((state) => {

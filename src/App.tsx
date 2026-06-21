@@ -5,6 +5,7 @@ import NewtonMoment from './sections/NewtonMoment';
 import TransformationLab from './sections/TransformationLab';
 import ChipExplosion from './sections/ChipExplosion';
 import CustomizationEngine from './sections/CustomizationEngine';
+import ImageGallery from './sections/ImageGallery';
 import AIOptimization from './sections/AIOptimization';
 import PackagingStudio from './sections/PackagingStudio';
 import Sustainability from './sections/Sustainability';
@@ -36,11 +37,14 @@ function App() {
   }, [setProgress]);
 
   return (
-    <div ref={containerRef} className="relative bg-black">
+    <div ref={containerRef} className="relative bg-[#050505]">
       {/* 3D Canvas Background */}
       <div className="fixed inset-0 z-0">
         <Scene />
       </div>
+
+      {/* Luxury Overlay */}
+      <div className="luxury-grain" />
 
       {/* Overlay Content */}
       <div className="relative z-10">
@@ -49,6 +53,7 @@ function App() {
         <TransformationLab />
         <ChipExplosion />
         <CustomizationEngine />
+        <ImageGallery />
         <AIOptimization />
         <PackagingStudio />
         <Sustainability />
