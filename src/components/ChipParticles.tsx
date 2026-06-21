@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Box, Text, Float, Html } from '@react-three/drei';
 import * as THREE from 'three';
-import { useStore } from '../store/useStore';
+import { useStore, FLAVOR_PROFILES } from '../store/useStore';
 
 const SingleChip = ({ text, index, progress, customization }: {
   text: string,
@@ -38,14 +38,7 @@ const SingleChip = ({ text, index, progress, customization }: {
     }
   });
 
-  const getFlavorColor = () => {
-      switch(customization.flavor) {
-          case 'Spicy Chili': return '#ff3b30';
-          case 'Wild Honey': return '#ffcc00';
-          case 'Truffle Black': return '#1c1c1e';
-          default: return index % 2 === 0 ? "#f5d142" : "#34c759";
-      }
-  };
+  const profile = FLAVOR_PROFILES[customization.flavor as keyof typeof FLAVOR_PROFILES];
 
   return (
     <group ref={groupRef}>
@@ -57,7 +50,7 @@ const SingleChip = ({ text, index, progress, customization }: {
           onPointerOut={() => setHovered(false)}
         >
           <meshStandardMaterial
-            color={hovered ? "#ffffff" : getFlavorColor()}
+            color={hovered ? "#ffffff" : profile.color}
             roughness={0.1}
             metalness={0.8}
             transparent
@@ -78,7 +71,7 @@ const SingleChip = ({ text, index, progress, customization }: {
         {hovered && (
           <Html distanceFactor={10} position={[0, 0.5, 0]}>
             <div className="bg-black/80 backdrop-blur-md border border-white/20 p-2 rounded text-white text-[10px] whitespace-nowrap">
-              {customization.flavor} Optimized: {text}
+              {customization.flavor} // {text}
             </div>
           </Html>
         )}
